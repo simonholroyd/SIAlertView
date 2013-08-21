@@ -68,4 +68,6 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 - (void)show;
 - (void)dismissAnimated:(BOOL)animated;
 
+- (UIButton *)buttonForItemIndex:(NSUInteger)index;
+
 @end
