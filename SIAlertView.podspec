@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'SIAlertView'
-  s.version  = '1.2'
+  s.version  = '1.2.1'
   s.platform = :ios
   s.license  = 'MIT'
   s.summary  = 'An UIAlertView replacement.'
