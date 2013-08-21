@@ -682,6 +682,9 @@ static SIAlertView *__si_alert_current_view;
     CGFloat height = [self preferredHeight];
     CGFloat left = (self.bounds.size.width - CONTAINER_WIDTH) * 0.5;
     CGFloat top = (self.bounds.size.height - height) * 0.5;
+
+    CGFloat buttonHeight = (self.buttonHeight) ? self.buttonHeight : BUTTON_HEIGHT;
+
     self.containerView.transform = CGAffineTransformIdentity;
     self.containerView.frame = CGRectMake(left, top, CONTAINER_WIDTH, height);
     self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
@@ -709,20 +712,20 @@ static SIAlertView *__si_alert_current_view;
         if (self.items.count == 2) {
             CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2 - GAP) * 0.5;
             UIButton *button = self.buttons[0];
-            button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, BUTTON_HEIGHT);
+            button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, buttonHeight);
             button = self.buttons[1];
-            button.frame = CGRectMake(CONTENT_PADDING_LEFT + width + GAP, y, width, BUTTON_HEIGHT);
+            button.frame = CGRectMake(CONTENT_PADDING_LEFT + width + GAP, y, width, buttonHeight);
         } else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
-                button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
+                button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, buttonHeight);
                 if (self.buttons.count > 1) {
                     if (i == self.buttons.count - 1 && ((SIAlertItem *)self.items[i]).type == SIAlertViewButtonTypeCancel) {
                         CGRect rect = button.frame;
                         rect.origin.y += CANCEL_BUTTON_PADDING_TOP;
                         button.frame = rect;
                     }
-                    y += BUTTON_HEIGHT + GAP;
+                    y += buttonHeight + GAP;
                 }
             }
         }
@@ -732,6 +735,8 @@ static SIAlertView *__si_alert_current_view;
 - (CGFloat)preferredHeight
 {
 	CGFloat height = CONTENT_PADDING_TOP;
+    CGFloat buttonHeight = (self.buttonHeight) ? self.buttonHeight : BUTTON_HEIGHT;
+    
 	if (self.title) {
 		height += [self heightForTitleLabel];
 	}
@@ -746,9 +751,9 @@ static SIAlertView *__si_alert_current_view;
             height += GAP;
         }
         if (self.items.count <= 2) {
-            height += BUTTON_HEIGHT;
+            height += buttonHeight;
         } else {
-            height += (BUTTON_HEIGHT + GAP) * self.items.count - GAP;
+            height += (buttonHeight + GAP) * self.items.count - GAP;
             if (self.buttons.count > 2 && ((SIAlertItem *)[self.items lastObject]).type == SIAlertViewButtonTypeCancel) {
                 height += CANCEL_BUTTON_PADDING_TOP;
             }
