@@ -683,6 +683,7 @@ static SIAlertView *__si_alert_current_view;
     CGFloat containerWidth = (self.containerWidth) ? self.containerWidth : CONTAINER_WIDTH;
     CGFloat contentPaddingTop = (self.contentPaddingTop) ? self.contentPaddingTop : CONTENT_PADDING_TOP;
     CGFloat contentPaddingLeft = (self.contentPaddingLeft) ? self.contentPaddingLeft : CONTENT_PADDING_LEFT;
+    CGFloat contentGap = (self.contentGap) ? self.contentGap : GAP;
     CGFloat left = (self.bounds.size.width - containerWidth) * 0.5;
     CGFloat top = (self.bounds.size.height - height) * 0.5;
 
@@ -701,7 +702,7 @@ static SIAlertView *__si_alert_current_view;
 	}
     if (self.messageLabel) {
         if (y > contentPaddingTop) {
-            y += GAP;
+            y += contentGap;
         }
         self.messageLabel.text = self.message;
         CGFloat height = [self heightForMessageLabel];
@@ -710,14 +711,14 @@ static SIAlertView *__si_alert_current_view;
     }
     if (self.items.count > 0) {
         if (y > contentPaddingTop) {
-            y += GAP;
+            y += contentGap;
         }
         if (self.items.count == 2) {
-            CGFloat width = (self.containerView.bounds.size.width - contentPaddingLeft * 2 - GAP) * 0.5;
+            CGFloat width = (self.containerView.bounds.size.width - contentPaddingLeft * 2 - contentGap) * 0.5;
             UIButton *button = self.buttons[0];
             button.frame = CGRectMake(contentPaddingLeft, y, width, buttonHeight);
             button = self.buttons[1];
-            button.frame = CGRectMake(contentPaddingLeft + width + GAP, y, width, buttonHeight);
+            button.frame = CGRectMake(contentPaddingLeft + width + contentGap, y, width, buttonHeight);
         } else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
@@ -728,7 +729,7 @@ static SIAlertView *__si_alert_current_view;
                         rect.origin.y += CANCEL_BUTTON_PADDING_TOP;
                         button.frame = rect;
                     }
-                    y += buttonHeight + GAP;
+                    y += buttonHeight + contentGap;
                 }
             }
         }
@@ -739,6 +740,7 @@ static SIAlertView *__si_alert_current_view;
 {
     CGFloat contentPaddingTop = (self.contentPaddingTop) ? self.contentPaddingTop : CONTENT_PADDING_TOP;
     CGFloat contentPaddingBottom = (self.contentPaddingBottom) ? self.contentPaddingBottom : CONTENT_PADDING_BOTTOM;
+    CGFloat contentGap = (self.contentGap) ? self.contentGap : GAP;
 	CGFloat height = contentPaddingTop;
     CGFloat buttonHeight = (self.buttonHeight) ? self.buttonHeight : BUTTON_HEIGHT;
 
@@ -747,18 +749,18 @@ static SIAlertView *__si_alert_current_view;
 	}
     if (self.message) {
         if (height > contentPaddingTop) {
-            height += GAP;
+            height += contentGap;
         }
         height += [self heightForMessageLabel];
     }
     if (self.items.count > 0) {
         if (height > contentPaddingTop) {
-            height += GAP;
+            height += contentGap;
         }
         if (self.items.count <= 2) {
             height += buttonHeight;
         } else {
-            height += (buttonHeight + GAP) * self.items.count - GAP;
+            height += (buttonHeight + contentGap) * self.items.count - contentGap;
             if (self.buttons.count > 2 && ((SIAlertItem *)[self.items lastObject]).type == SIAlertViewButtonTypeCancel) {
                 height += CANCEL_BUTTON_PADDING_TOP;
             }
