@@ -6,8 +6,7 @@ Pod::Spec.new do |s|
   s.summary  = 'An UIAlertView replacement.'
   s.homepage = 'https://github.com/Sumi-Interactive/SIAlertView'
   s.author   = { 'Sumi Interactive' => 'developer@sumi-sumi.com' }
-  s.source   = { :git => 'https://github.com/Sumi-Interactive/SIAlertView.git',
-                 :tag => '1.2' }
+  s.source       = { :git => "https://github.com/simonholroyd/SIAlertView.git", :tag => '1.2.1' }
 
   s.description = 'An UIAlertView replacement with block syntax and fancy transition styles.'
 
