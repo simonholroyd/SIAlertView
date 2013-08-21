@@ -482,7 +482,7 @@ static SIAlertView *__si_alert_current_view;
             
             animation.duration = .4;
             [self.containerView.layer addAnimation:animation forKey:@"pop_in"];
-    
+            break;    
         }
         case SIAlertViewTransitionStyleSlideFromBottom:
         {
@@ -612,6 +612,7 @@ static SIAlertView *__si_alert_current_view;
                              }];
         }
             break;
+        case SIAlertViewTransitionStylePopIn:
         case SIAlertViewTransitionStyleBounce:
         {
             CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
