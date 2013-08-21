@@ -681,6 +681,8 @@ static SIAlertView *__si_alert_current_view;
     
     CGFloat height = [self preferredHeight];
     CGFloat containerWidth = (self.containerWidth) ? self.containerWidth : CONTAINER_WIDTH;
+    CGFloat contentPaddingTop = (self.contentPaddingTop) ? self.contentPaddingTop : CONTENT_PADDING_TOP;
+    CGFloat contentPaddingLeft = (self.contentPaddingLeft) ? self.contentPaddingLeft : CONTENT_PADDING_LEFT;
     CGFloat left = (self.bounds.size.width - containerWidth) * 0.5;
     CGFloat top = (self.bounds.size.height - height) * 0.5;
 
@@ -690,36 +692,36 @@ static SIAlertView *__si_alert_current_view;
     self.containerView.frame = CGRectMake(left, top, containerWidth, height);
     self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
     
-    CGFloat y = CONTENT_PADDING_TOP;
+    CGFloat y = contentPaddingTop;
 	if (self.titleLabel) {
         self.titleLabel.text = self.title;
         CGFloat height = [self heightForTitleLabel];
-        self.titleLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
+        self.titleLabel.frame = CGRectMake(contentPaddingLeft, y, self.containerView.bounds.size.width - contentPaddingLeft * 2, height);
         y += height;
 	}
     if (self.messageLabel) {
-        if (y > CONTENT_PADDING_TOP) {
+        if (y > contentPaddingTop) {
             y += GAP;
         }
         self.messageLabel.text = self.message;
         CGFloat height = [self heightForMessageLabel];
-        self.messageLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
+        self.messageLabel.frame = CGRectMake(contentPaddingLeft, y, self.containerView.bounds.size.width - contentPaddingLeft * 2, height);
         y += height;
     }
     if (self.items.count > 0) {
-        if (y > CONTENT_PADDING_TOP) {
+        if (y > contentPaddingTop) {
             y += GAP;
         }
         if (self.items.count == 2) {
-            CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2 - GAP) * 0.5;
+            CGFloat width = (self.containerView.bounds.size.width - contentPaddingLeft * 2 - GAP) * 0.5;
             UIButton *button = self.buttons[0];
-            button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, buttonHeight);
+            button.frame = CGRectMake(contentPaddingLeft, y, width, buttonHeight);
             button = self.buttons[1];
-            button.frame = CGRectMake(CONTENT_PADDING_LEFT + width + GAP, y, width, buttonHeight);
+            button.frame = CGRectMake(contentPaddingLeft + width + GAP, y, width, buttonHeight);
         } else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
-                button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, buttonHeight);
+                button.frame = CGRectMake(contentPaddingLeft, y, self.containerView.bounds.size.width - contentPaddingLeft * 2, buttonHeight);
                 if (self.buttons.count > 1) {
                     if (i == self.buttons.count - 1 && ((SIAlertItem *)self.items[i]).type == SIAlertViewButtonTypeCancel) {
                         CGRect rect = button.frame;
@@ -735,20 +737,22 @@ static SIAlertView *__si_alert_current_view;
 
 - (CGFloat)preferredHeight
 {
-	CGFloat height = CONTENT_PADDING_TOP;
+    CGFloat contentPaddingTop = (self.contentPaddingTop) ? self.contentPaddingTop : CONTENT_PADDING_TOP;
+    CGFloat contentPaddingBottom = (self.contentPaddingBottom) ? self.contentPaddingBottom : CONTENT_PADDING_BOTTOM;
+	CGFloat height = contentPaddingTop;
     CGFloat buttonHeight = (self.buttonHeight) ? self.buttonHeight : BUTTON_HEIGHT;
 
 	if (self.title) {
 		height += [self heightForTitleLabel];
 	}
     if (self.message) {
-        if (height > CONTENT_PADDING_TOP) {
+        if (height > contentPaddingTop) {
             height += GAP;
         }
         height += [self heightForMessageLabel];
     }
     if (self.items.count > 0) {
-        if (height > CONTENT_PADDING_TOP) {
+        if (height > contentPaddingTop) {
             height += GAP;
         }
         if (self.items.count <= 2) {
@@ -760,13 +764,14 @@ static SIAlertView *__si_alert_current_view;
             }
         }
     }
-    height += CONTENT_PADDING_BOTTOM;
+    height += contentPaddingBottom;
 	return height;
 }
 
 - (CGFloat)heightForTitleLabel
 {
     CGFloat containerWidth = (self.containerWidth) ? self.containerWidth : CONTAINER_WIDTH;
+    CGFloat contentPaddingLeft = (self.contentPaddingLeft) ? self.contentPaddingLeft : CONTENT_PADDING_LEFT;
 
     if (self.titleLabel) {
         CGSize size = [self.title sizeWithFont:self.titleLabel.font
@@ -777,7 +782,7 @@ static SIAlertView *__si_alert_current_view;
                        self.titleLabel.minimumFontSize
 #endif
                                 actualFontSize:nil
-                                      forWidth:containerWidth - CONTENT_PADDING_LEFT * 2
+                                      forWidth:containerWidth - contentPaddingLeft * 2
                                  lineBreakMode:self.titleLabel.lineBreakMode];
         return size.height;
     }
@@ -788,11 +793,12 @@ static SIAlertView *__si_alert_current_view;
 {
     CGFloat minHeight = MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight;
     CGFloat containerWidth = (self.containerWidth) ? self.containerWidth : CONTAINER_WIDTH;
-    
+    CGFloat contentPaddingLeft = (self.contentPaddingLeft) ? self.contentPaddingLeft : CONTENT_PADDING_LEFT;
+
     if (self.messageLabel) {
         CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
         CGSize size = [self.message sizeWithFont:self.messageLabel.font
-                               constrainedToSize:CGSizeMake(containerWidth - CONTENT_PADDING_LEFT * 2, maxHeight)
+                               constrainedToSize:CGSizeMake(containerWidth - contentPaddingLeft * 2, maxHeight)
                                    lineBreakMode:self.messageLabel.lineBreakMode];
         return MAX(minHeight, size.height);
     }
