@@ -454,6 +454,36 @@ static SIAlertView *__si_alert_current_view;
 - (void)transitionInCompletion:(void(^)(void))completion
 {
     switch (self.transitionStyle) {
+        case SIAlertViewTransitionStylePopIn:
+        {
+            CAKeyframeAnimation *animation = [CAKeyframeAnimation
+                                  animationWithKeyPath:@"transform"];
+
+            CATransform3D scale1 = CATransform3DMakeScale(0.0, 0.0, 1);
+            CATransform3D scale2 = CATransform3DMakeScale(1.1, 1.1, 1);
+            CATransform3D scale3 = CATransform3DMakeScale(0.9, 0.9, 1);
+            CATransform3D scale4 = CATransform3DMakeScale(1.0, 1.0, 1);
+            
+            NSArray *frameValues = [NSArray arrayWithObjects:
+                                    [NSValue valueWithCATransform3D:scale1],
+                                    [NSValue valueWithCATransform3D:scale2],
+                                    [NSValue valueWithCATransform3D:scale3],
+                                    [NSValue valueWithCATransform3D:scale4],
+                                    nil];
+            [animation setValues:frameValues];
+            
+            NSArray *frameTimes = [NSArray arrayWithObjects:
+                                   [NSNumber numberWithFloat:0.0],
+                                   [NSNumber numberWithFloat:0.5],
+                                   [NSNumber numberWithFloat:0.75],
+                                   [NSNumber numberWithFloat:1.0],
+                                   nil];    
+            [animation setKeyTimes:frameTimes];
+            
+            animation.duration = .4;
+            [self.containerView.layer addAnimation:animation forKey:@"pop_in"];
+    
+        }
         case SIAlertViewTransitionStyleSlideFromBottom:
         {
             CGRect rect = self.containerView.frame;

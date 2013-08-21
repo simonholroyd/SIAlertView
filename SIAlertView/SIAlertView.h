@@ -29,7 +29,8 @@ typedef NS_ENUM(NSInteger, SIAlertViewTransitionStyle) {
     SIAlertViewTransitionStyleSlideFromTop,
     SIAlertViewTransitionStyleFade,
     SIAlertViewTransitionStyleBounce,
-    SIAlertViewTransitionStyleDropDown
+    SIAlertViewTransitionStyleDropDown,
+    SIAlertViewTransitionStylePopIn
 };
 
 @class SIAlertView;
