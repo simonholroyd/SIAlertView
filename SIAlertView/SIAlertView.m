@@ -680,13 +680,14 @@ static SIAlertView *__si_alert_current_view;
 #endif
     
     CGFloat height = [self preferredHeight];
-    CGFloat left = (self.bounds.size.width - CONTAINER_WIDTH) * 0.5;
+    CGFloat containerWidth = (self.containerWidth) ? self.containerWidth : CONTAINER_WIDTH;
+    CGFloat left = (self.bounds.size.width - containerWidth) * 0.5;
     CGFloat top = (self.bounds.size.height - height) * 0.5;
 
     CGFloat buttonHeight = (self.buttonHeight) ? self.buttonHeight : BUTTON_HEIGHT;
 
     self.containerView.transform = CGAffineTransformIdentity;
-    self.containerView.frame = CGRectMake(left, top, CONTAINER_WIDTH, height);
+    self.containerView.frame = CGRectMake(left, top, containerWidth, height);
     self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
     
     CGFloat y = CONTENT_PADDING_TOP;
@@ -736,7 +737,7 @@ static SIAlertView *__si_alert_current_view;
 {
 	CGFloat height = CONTENT_PADDING_TOP;
     CGFloat buttonHeight = (self.buttonHeight) ? self.buttonHeight : BUTTON_HEIGHT;
-    
+
 	if (self.title) {
 		height += [self heightForTitleLabel];
 	}
@@ -765,6 +766,8 @@ static SIAlertView *__si_alert_current_view;
 
 - (CGFloat)heightForTitleLabel
 {
+    CGFloat containerWidth = (self.containerWidth) ? self.containerWidth : CONTAINER_WIDTH;
+
     if (self.titleLabel) {
         CGSize size = [self.title sizeWithFont:self.titleLabel.font
                                    minFontSize:
@@ -774,7 +777,7 @@ static SIAlertView *__si_alert_current_view;
                        self.titleLabel.minimumFontSize
 #endif
                                 actualFontSize:nil
-                                      forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
+                                      forWidth:containerWidth - CONTENT_PADDING_LEFT * 2
                                  lineBreakMode:self.titleLabel.lineBreakMode];
         return size.height;
     }
@@ -784,10 +787,12 @@ static SIAlertView *__si_alert_current_view;
 - (CGFloat)heightForMessageLabel
 {
     CGFloat minHeight = MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight;
+    CGFloat containerWidth = (self.containerWidth) ? self.containerWidth : CONTAINER_WIDTH;
+    
     if (self.messageLabel) {
         CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
         CGSize size = [self.message sizeWithFont:self.messageLabel.font
-                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
+                               constrainedToSize:CGSizeMake(containerWidth - CONTENT_PADDING_LEFT * 2, maxHeight)
                                    lineBreakMode:self.messageLabel.lineBreakMode];
         return MAX(minHeight, size.height);
     }
